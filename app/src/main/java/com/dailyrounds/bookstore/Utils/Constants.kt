@@ -13,6 +13,14 @@ package com.dailyrounds.bookstore.Utils
          const val GET_USERS_QUERY="SELECT * FROM $USER_TABLE"
 
          //Shared Preference keys
+         const val SHARED_PREF_NAME="MySharedPref"
+         const val DATABASE_INIT="DatabaseIntialized"
+
+         //Misllaneous
+         const val ASSETS_PATH_BOOKS="BooksData.json"
+         const val ASSETS_PATH_COUNTRY="CountryData.json"
+
+
 
      }
  }

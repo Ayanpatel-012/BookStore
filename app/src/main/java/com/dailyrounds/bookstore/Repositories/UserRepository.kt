@@ -7,7 +7,7 @@ import com.dailyrounds.bookstore.Models.User
 class UserRepository(private val userDao: UserDao) {
     suspend fun insertUser(user: User) {
         try {
-            userDao.insert(UserEntity(user.username, user.password))
+            userDao.insert(UserEntity(user.username, user.password,user.country))
         } catch (e: Exception) {
             throw e
         }
@@ -16,7 +16,7 @@ class UserRepository(private val userDao: UserDao) {
     suspend fun getUsers(): List<User> {
         try {
             return userDao.getUsers().map {
-                User(it.userId, it.password)
+                User(it.userId, it.password,it.country)
             }
         } catch (e: Exception) {
             throw e
