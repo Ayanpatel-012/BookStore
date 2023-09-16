@@ -55,14 +55,31 @@ This is the function which checks whether the user is logged in or not if yes it
     private fun initListeners() {
         binding.apply {
             loginBtn.setOnClickListener {
-                this@LoginActivity.supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainerView, LoginFragment.newInstance())
-                    .setReorderingAllowed(true).addToBackStack(null).commit()
+                if (supportFragmentManager.findFragmentById(R.id.fragmentContainerView) !is LoginFragment) {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainerView, LoginFragment.newInstance())
+                        .setReorderingAllowed(true).addToBackStack(null).commit()
+
+                    // Update button backgrounds
+                    loginBtn.setBackgroundResource(R.drawable.btn_bg_black)
+                    loginBtn.setTextColor(getColor(R.color.white))
+                    Rgtrbtn.setBackgroundResource(R.drawable.btn_bg_white)
+                    Rgtrbtn.setTextColor(getColor(R.color.black))
+                }
             }
             Rgtrbtn.setOnClickListener {
-                this@LoginActivity.supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainerView, RegisterFragment.newInstance())
-                    .setReorderingAllowed(true).addToBackStack(null).commit()
+                if (supportFragmentManager.findFragmentById(R.id.fragmentContainerView) !is RegisterFragment) {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainerView, RegisterFragment.newInstance())
+                        .setReorderingAllowed(true).addToBackStack(null).commit()
+
+                    // Update button backgrounds
+                    loginBtn.setBackgroundResource(R.drawable.btn_bg_white)
+                    loginBtn.setTextColor(getColor(R.color.black))
+                    Rgtrbtn.setBackgroundResource(R.drawable.btn_bg_black)
+                    Rgtrbtn.setTextColor(getColor(R.color.white))
+
+                }
             }
         }
     }
