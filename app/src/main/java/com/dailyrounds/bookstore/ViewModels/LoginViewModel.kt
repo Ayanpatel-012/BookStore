@@ -1,5 +1,6 @@
 package com.dailyrounds.bookstore.ViewModels
 
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,7 +18,6 @@ class LoginViewModel(private val userRepository: UserRepository,private val book
     val countryLiveData:LiveData<List<Country>>
     get()=_countryLiveData
     private val _countryLiveData=MutableLiveData<List<Country>>()
-
     fun saveBooks(bookList: BookList){
         viewModelScope.launch {
             try{

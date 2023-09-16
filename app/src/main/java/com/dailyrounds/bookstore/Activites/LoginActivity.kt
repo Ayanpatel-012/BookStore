@@ -8,6 +8,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.dailyrounds.bookstore.Database.BookStoreDatabase
+import com.dailyrounds.bookstore.Fragments.LoginFragment
+import com.dailyrounds.bookstore.Fragments.RegisterFragment
 import com.dailyrounds.bookstore.Models.BookList
 import com.dailyrounds.bookstore.Models.CountryList
 import com.dailyrounds.bookstore.R
@@ -16,6 +18,7 @@ import com.dailyrounds.bookstore.Repositories.UserRepository
 import com.dailyrounds.bookstore.Utils.Constants
 import com.dailyrounds.bookstore.ViewModels.LoginViewModel
 import com.dailyrounds.bookstore.ViewModels.LoginViewModelFactory
+import com.dailyrounds.bookstore.databinding.ActivityLoginBinding
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,20 +29,44 @@ class LoginActivity : AppCompatActivity() {
     lateinit var sharedPrefs: SharedPreferences
     lateinit var database: BookStoreDatabase
     lateinit var viewModel: LoginViewModel
+    lateinit var binding: ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        initBinding()
         initSharedPreference()
         initDatabase()
         initViewModel()
         initObservers()
-        viewModel.getCountries()
+        initListeners()
+//        viewModel.getCountries()
+    }
+
+    private fun initListeners() {
+        binding.apply {
+            loginBtn.setOnClickListener {
+                this@LoginActivity.supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainerView, LoginFragment.newInstance())
+                    .setReorderingAllowed(true).addToBackStack(null).commit()
+            }
+            Rgtrbtn.setOnClickListener {
+
+                this@LoginActivity.supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainerView, RegisterFragment.newInstance())
+                    .setReorderingAllowed(true).addToBackStack(null).commit()
+            }
+        }
+    }
+
+    private fun initBinding() {
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setActionBar(null)
     }
 
     private fun initObservers() {
         viewModel.countryLiveData.observe(this) {
-            Log.d("AYAN", it.toString())
         }
+
     }
 
     private fun initViewModel() {
