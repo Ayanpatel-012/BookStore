@@ -83,14 +83,12 @@ class LoginViewModel(
                 var user: User? = userRepository.getUserById(username)
                 if (user == null) {
                     _loginStatus.postValue(LoginStatus.USER_NOT_FOUND_ERROR)
-                }
-                else{
-                    if(user.username!=username) _loginStatus.postValue(LoginStatus.USER_NOT_FOUND_ERROR)
-                    else if (!user.password.equals(password)){
+                } else {
+                    if (user.username != username) _loginStatus.postValue(LoginStatus.USER_NOT_FOUND_ERROR)
+                    else if (!user.password.equals(password)) {
                         Log.d("AYAN", "$password,${user.password}")
                         _loginStatus.postValue(LoginStatus.PASSWORD_ERROR)
-                    }
-                    else _loginStatus.postValue(LoginStatus.CANLOGIN)
+                    } else _loginStatus.postValue(LoginStatus.CANLOGIN)
                 }
 
             } catch (e: Exception) {

@@ -10,22 +10,15 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.dailyrounds.bookstore.Database.BookStoreDatabase
-import com.dailyrounds.bookstore.Models.BookList
 import com.dailyrounds.bookstore.Models.Country
-import com.dailyrounds.bookstore.Models.CountryList
 import com.dailyrounds.bookstore.R
 import com.dailyrounds.bookstore.Repositories.BookRepository
 import com.dailyrounds.bookstore.Repositories.UserRepository
-import com.dailyrounds.bookstore.Utils.Constants
 import com.dailyrounds.bookstore.ViewModels.LoginViewModel
 import com.dailyrounds.bookstore.ViewModels.LoginViewModelFactory
 import com.dailyrounds.bookstore.databinding.FragmentRegisterBinding
 import com.dailyrounds.bookstore.enums.RegistrationStatus
-import com.google.gson.Gson
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class RegisterFragment : Fragment() {
     lateinit var viewModel: LoginViewModel
@@ -167,7 +160,7 @@ class RegisterFragment : Fragment() {
             isAtLeast8 = false;
             binding.frameOne.setCardBackgroundColor(
                 ContextCompat.getColor(
-                    requireActivity(), R.color.darker_gray
+                    requireActivity(), R.color.lighter_gray
                 )
             )
         }
@@ -182,7 +175,7 @@ class RegisterFragment : Fragment() {
             hasUppercase = false;
             binding.frameTwo.setCardBackgroundColor(
                 ContextCompat.getColor(
-                    requireActivity(), R.color.darker_gray
+                    requireActivity(), R.color.lighter_gray
                 )
             )
         }
@@ -197,7 +190,7 @@ class RegisterFragment : Fragment() {
             hasNumber = false
             binding.frameThree.setCardBackgroundColor(
                 ContextCompat.getColor(
-                    requireActivity(), R.color.darker_gray
+                    requireActivity(), R.color.lighter_gray
                 )
             )
         }
@@ -212,7 +205,7 @@ class RegisterFragment : Fragment() {
             hasSymbol = false;
             binding.frameFour.setCardBackgroundColor(
                 ContextCompat.getColor(
-                    requireActivity(), R.color.darker_gray
+                    requireActivity(), R.color.lighter_gray
                 )
             )
         }

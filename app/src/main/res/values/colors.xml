@@ -10,7 +10,8 @@
     <color name="yellow">#CDDC39</color>
     <color name="red">#F44336</color>
     <color name="holo_green_dark">#6ED372</color>
-    <color name="darker_gray">#D6DDD6</color>
+    <color name="lighter_gray">#D6DDD6</color>
+    <color name="grey">#A7AEA7</color>
 
 
 </resources>
