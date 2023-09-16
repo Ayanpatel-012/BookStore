@@ -32,10 +32,6 @@ class RegisterFragment : Fragment() {
     lateinit var database: BookStoreDatabase
     var countryData = ArrayList<Country>()
     private lateinit var binding: FragmentRegisterBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -65,7 +61,7 @@ class RegisterFragment : Fragment() {
             when (it) {
                 RegistrationStatus.USER_PRESENT -> {
                     binding.tvNameError.text = "username already exists!"
-                    binding.tvNameError.visibility=View.VISIBLE
+                    binding.tvNameError.visibility = View.VISIBLE
                     showLoader(false)
                 }
                 RegistrationStatus.REGISTERED -> {
@@ -155,10 +151,10 @@ class RegisterFragment : Fragment() {
 
     private fun validatePassword(text: String?): Boolean {
         val password = text.toString()
-        var isAtLeast8 = false
-        var hasUppercase = false
-        var hasNumber = false
-        var hasSymbol = false
+        var isAtLeast8: Boolean
+        var hasUppercase: Boolean
+        var hasNumber: Boolean
+        var hasSymbol: Boolean
 
         if (password.isNullOrEmpty()) {
             binding.tvPasswordError.text = "Please enter a password"
