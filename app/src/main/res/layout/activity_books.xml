@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".Activites.BooksActivity">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Book Shelf"
+            android:textSize="25sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/logout"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            app:layout_constraintBottom_toBottomOf="@+id/title"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/logout"/>
+        <LinearLayout
+            android:id="@+id/sortCl"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            >
+
+            <TextView
+                android:id="@+id/sortTitle"
+                android:layout_width="20dp"
+                android:layout_height="25dp"
+                android:layout_weight="0.33"
+                android:text="by titles"
+                android:layout_marginStart="5dp"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:background="@drawable/btn_bg_black"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/sortHits"
+                android:layout_width="20dp"
+                android:layout_height="25dp"
+                android:layout_weight="0.33"
+                android:text="By hits"
+                android:gravity="center"
+                android:layout_marginStart="5dp"
+                android:textAlignment="center"
+                android:background="@drawable/btn_bg_black"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/sortFavs"
+                android:layout_width="20dp"
+                android:layout_height="25dp"
+                android:layout_weight="0.33"
+                android:layout_marginStart="5dp"
+                android:text="by Favs"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:background="@drawable/btn_bg_black"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rvCl"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sortCl"
+            app:layout_constraintBottom_toBottomOf="parent">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

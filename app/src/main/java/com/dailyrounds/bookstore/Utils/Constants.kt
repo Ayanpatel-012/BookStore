@@ -17,6 +17,7 @@ package com.dailyrounds.bookstore.Utils
          //Shared Preference keys
          const val SHARED_PREF_NAME="MySharedPref"
          const val DATABASE_INIT="DatabaseIntialized"
+         const val LOGGED_IN_STATUS="loggedInStatus"
 
          //Misllaneous
          const val ASSETS_PATH_BOOKS="BooksData.json"

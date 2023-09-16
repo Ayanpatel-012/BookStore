@@ -1,10 +1,12 @@
 package com.dailyrounds.bookstore.Activites
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.dailyrounds.bookstore.Database.BookStoreDatabase
@@ -19,6 +21,7 @@ import com.dailyrounds.bookstore.Utils.Constants
 import com.dailyrounds.bookstore.ViewModels.LoginViewModel
 import com.dailyrounds.bookstore.ViewModels.LoginViewModelFactory
 import com.dailyrounds.bookstore.databinding.ActivityLoginBinding
+import com.dailyrounds.bookstore.enums.RegistrationStatus
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,13 +35,22 @@ class LoginActivity : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initBinding()
         initSharedPreference()
+        updateUI()
+        initBinding()
         initDatabase()
         initViewModel()
         initObservers()
         initListeners()
-//        viewModel.getCountries()
+    }
+/*
+This is the function which checks whether the user is logged in or not if yes it opens the books activity
+ */
+    private fun updateUI() {
+       if(sharedPrefs.getBoolean(Constants.LOGGED_IN_STATUS,false)){
+           startActivity(Intent(this,BooksActivity::class.java))
+           finish()
+       }
     }
 
     private fun initListeners() {
@@ -49,7 +61,6 @@ class LoginActivity : AppCompatActivity() {
                     .setReorderingAllowed(true).addToBackStack(null).commit()
             }
             Rgtrbtn.setOnClickListener {
-
                 this@LoginActivity.supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainerView, RegisterFragment.newInstance())
                     .setReorderingAllowed(true).addToBackStack(null).commit()
@@ -66,6 +77,18 @@ class LoginActivity : AppCompatActivity() {
     private fun initObservers() {
         viewModel.countryLiveData.observe(this) {
         }
+        viewModel.registrationStatus.observe(this) {
+            when (it) {
+                RegistrationStatus.REGISTERED -> {
+                    sharedPrefs.edit().putBoolean(Constants.LOGGED_IN_STATUS,true).commit()
+                    startActivity(Intent(this, BooksActivity::class.java))
+                    finish()
+                }
+
+                else -> {}
+            }
+        }
+
 
     }
 

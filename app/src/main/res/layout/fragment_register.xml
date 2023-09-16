@@ -227,24 +227,33 @@
 
             </LinearLayout>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/btnRegister"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clBottom"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
-                app:cardBackgroundColor="#dcdcdc">
-
+                >
+                <ProgressBar
+                    android:id="@+id/loader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="gone"/>
                 <TextView
-                    android:id="@+id/tvColor"
+                    android:id="@+id/btnRegister"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="Sign Up"
+                    android:textAlignment="center"
+                    android:background="@drawable/btn_bg_white"
                     android:textColor="@android:color/black"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
-            </androidx.cardview.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
