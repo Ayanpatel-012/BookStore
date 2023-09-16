@@ -5,8 +5,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.dailyrounds.bookstore.Database.BookStoreDatabase
@@ -21,6 +19,7 @@ import com.dailyrounds.bookstore.Utils.Constants
 import com.dailyrounds.bookstore.ViewModels.LoginViewModel
 import com.dailyrounds.bookstore.ViewModels.LoginViewModelFactory
 import com.dailyrounds.bookstore.databinding.ActivityLoginBinding
+import com.dailyrounds.bookstore.enums.LoginStatus
 import com.dailyrounds.bookstore.enums.RegistrationStatus
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
@@ -80,6 +79,17 @@ This is the function which checks whether the user is logged in or not if yes it
         viewModel.registrationStatus.observe(this) {
             when (it) {
                 RegistrationStatus.REGISTERED -> {
+                    sharedPrefs.edit().putBoolean(Constants.LOGGED_IN_STATUS,true).commit()
+                    startActivity(Intent(this, BooksActivity::class.java))
+                    finish()
+                }
+
+                else -> {}
+            }
+        }
+        viewModel.loginStatus.observe(this) {
+            when (it) {
+                LoginStatus.CANLOGIN -> {
                     sharedPrefs.edit().putBoolean(Constants.LOGGED_IN_STATUS,true).commit()
                     startActivity(Intent(this, BooksActivity::class.java))
                     finish()

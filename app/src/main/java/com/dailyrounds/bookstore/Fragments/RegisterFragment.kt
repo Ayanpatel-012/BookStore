@@ -33,8 +33,7 @@ class RegisterFragment : Fragment() {
     var countryData = ArrayList<Country>()
     private lateinit var binding: FragmentRegisterBinding
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = FragmentRegisterBinding.inflate(layoutInflater)
         return binding.root
@@ -111,25 +110,18 @@ class RegisterFragment : Fragment() {
         }
 
         binding.etPassword.apply { filters += avoidSpaceFilter }
-        binding.etPassword.addTextChangedListener(
-            onTextChanged = { text, _, _, _ ->
-                validatePassword(text.toString())
-            }
-        )
-        binding.etName.addTextChangedListener(
-            onTextChanged = { text, _, _, _ ->
-                validateName(text.toString())
-            }
-        )
+        binding.etPassword.addTextChangedListener(onTextChanged = { text, _, _, _ ->
+            validatePassword(text.toString())
+        })
+        binding.etName.addTextChangedListener(onTextChanged = { text, _, _, _ ->
+            validateName(text.toString())
+        })
         binding.btnRegister.setOnClickListener {
-            if (validateName(
-                    binding.etName.text.toString().trim()
-                ) && validatePassword(binding.etPassword.text.toString().trim())
-            ) {
+            val username = binding?.etName?.text.toString().trim()
+            val password = binding?.etPassword?.text.toString().trim()
+            if (validateName(username) && validatePassword(password)) {
                 viewModel.registerUser(
-                    binding.etName.text.toString(),
-                    binding.etPassword.toString(),
-                    "india"
+                    username, password, "india"
                 )
             }
         }
@@ -168,16 +160,14 @@ class RegisterFragment : Fragment() {
             isAtLeast8 = true;
             binding.frameOne.setCardBackgroundColor(
                 ContextCompat.getColor(
-                    requireActivity(),
-                    R.color.holo_green_dark
+                    requireActivity(), R.color.holo_green_dark
                 )
             )
         } else {
             isAtLeast8 = false;
             binding.frameOne.setCardBackgroundColor(
                 ContextCompat.getColor(
-                    requireActivity(),
-                    R.color.darker_gray
+                    requireActivity(), R.color.darker_gray
                 )
             )
         }
@@ -185,16 +175,14 @@ class RegisterFragment : Fragment() {
             hasUppercase = true;
             binding.frameTwo.setCardBackgroundColor(
                 ContextCompat.getColor(
-                    requireActivity(),
-                    R.color.holo_green_dark
+                    requireActivity(), R.color.holo_green_dark
                 )
             )
         } else {
             hasUppercase = false;
             binding.frameTwo.setCardBackgroundColor(
                 ContextCompat.getColor(
-                    requireActivity(),
-                    R.color.darker_gray
+                    requireActivity(), R.color.darker_gray
                 )
             )
         }
@@ -202,16 +190,14 @@ class RegisterFragment : Fragment() {
             hasNumber = true
             binding.frameThree.setCardBackgroundColor(
                 ContextCompat.getColor(
-                    requireActivity(),
-                    R.color.holo_green_dark
+                    requireActivity(), R.color.holo_green_dark
                 )
             )
         } else {
             hasNumber = false
             binding.frameThree.setCardBackgroundColor(
                 ContextCompat.getColor(
-                    requireActivity(),
-                    R.color.darker_gray
+                    requireActivity(), R.color.darker_gray
                 )
             )
         }
@@ -219,16 +205,14 @@ class RegisterFragment : Fragment() {
             hasSymbol = true
             binding.frameFour.setCardBackgroundColor(
                 ContextCompat.getColor(
-                    requireActivity(),
-                    R.color.holo_green_dark
+                    requireActivity(), R.color.holo_green_dark
                 )
             )
         } else {
             hasSymbol = false;
             binding.frameFour.setCardBackgroundColor(
                 ContextCompat.getColor(
-                    requireActivity(),
-                    R.color.darker_gray
+                    requireActivity(), R.color.darker_gray
                 )
             )
         }
@@ -243,8 +227,6 @@ class RegisterFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() =
-            RegisterFragment().apply {
-            }
+        fun newInstance() = RegisterFragment().apply {}
     }
 }

@@ -1,34 +1,155 @@
 package com.dailyrounds.bookstore.Fragments
 
 import android.os.Bundle
+import android.text.InputFilter
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.ViewModelProvider
+import com.dailyrounds.bookstore.Database.BookStoreDatabase
 import com.dailyrounds.bookstore.R
+import com.dailyrounds.bookstore.Repositories.BookRepository
+import com.dailyrounds.bookstore.Repositories.UserRepository
+import com.dailyrounds.bookstore.ViewModels.LoginViewModel
+import com.dailyrounds.bookstore.ViewModels.LoginViewModelFactory
+import com.dailyrounds.bookstore.databinding.FragmentLoginBinding
+import com.dailyrounds.bookstore.enums.LoginStatus
 
 class LoginFragment : Fragment() {
+    private lateinit var binding: FragmentLoginBinding
+    lateinit var viewModel: LoginViewModel
+    lateinit var database: BookStoreDatabase
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentLoginBinding.inflate(layoutInflater)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initDatabase()
+        initViewModel()
+        initObservers()
+        initTextWatchersAndListener()
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-
+    private fun initTextWatchersAndListener() {
+        val avoidSpaceFilter = InputFilter { source, _, _, _, _, _ ->
+            val sourceText = source.toString()
+            if (" " !in sourceText) return@InputFilter null // keep original
+            sourceText.replace(" ", "")
+        }
+        binding.etPassword.apply { filters += avoidSpaceFilter }
+        binding.etPassword.addTextChangedListener(onTextChanged = { text, _, _, _ ->
+            validatePassword(text.toString())
+        })
+        binding.etName.addTextChangedListener(onTextChanged = { text, _, _, _ ->
+            validateName(text.toString())
+        })
+        binding.btnLogin.setOnClickListener {
+            val username = binding?.etName?.text.toString().trim()
+            val password = binding?.etPassword?.text.toString().trim()
+            if (validateName(username) && validatePassword(password)) {
+                viewModel.loginUser(username, password)
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    private fun validateName(username: String): Boolean {
+        if (username.isNullOrEmpty()) {
+            binding.tvNameError.text = "Please enter username"
+            binding.tvNameError.visibility = View.VISIBLE
+            return false
+        }
+        binding.tvNameError.text = ""
+        binding.tvNameError.visibility = View.GONE
 
-        return inflater.inflate(R.layout.fragment_login_fragement, container, false)
+        return true
+    }
+
+    private fun validatePassword(password: String?): Boolean {
+        if (password.isNullOrEmpty()) {
+            binding.tvPasswordError.text = "Please enter a password"
+            binding.tvPasswordError.visibility = View.VISIBLE
+            return false
+        }
+        binding.tvPasswordError.text = ""
+        binding.tvPasswordError.visibility = View.GONE
+        return true
+    }
+
+    private fun initObservers() {
+        viewModel.loginStatus.observe(requireActivity()) {
+            when (it) {
+                LoginStatus.CANLOGIN -> {
+                    showToast("Hi! Welcome to the books world")
+                    showLoader(false)
+                }
+                LoginStatus.PASSWORD_ERROR -> {
+                    binding.tvPasswordError.text = "oops!password doesn't match"
+                    binding.tvPasswordError.visibility = View.VISIBLE
+                    showLoader(false)
+                }
+                LoginStatus.USER_NOT_FOUND_ERROR -> {
+                    binding.tvNameError.text = "username not found"
+                    binding.tvNameError.visibility = View.VISIBLE
+                    showLoader(false)
+                }
+                LoginStatus.DB_ERROR -> {
+                    showToast("Error Fetching data.Try again later")
+                    showLoader(false)
+                }
+                LoginStatus.INPROGRESS -> showLoader(true)
+            }
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showLoader(show: Boolean) {
+        if (show) {
+            binding.loader.visibility = View.VISIBLE
+            binding.btnLogin.visibility = View.GONE
+        } else {
+            binding.loader.visibility = View.GONE
+            binding.btnLogin.visibility = View.VISIBLE
+        }
+    }
+
+    private fun initViewModel() {
+        viewModel = ViewModelProvider(
+            requireActivity(), LoginViewModelFactory(
+                UserRepository(database.UserDao(), database.CountryDao()),
+                BookRepository(database.BooksDao())
+            )
+        )[LoginViewModel::class.java]
+    }
+
+    private fun initDatabase() {
+        database = BookStoreDatabase.getDatabase(requireActivity())
+    }
+
+
+    override fun onDetach() {
+        super.onDetach()
+        clearViews()
+    }
+
+    private fun clearViews() {
+        binding.tvNameError.text = ""
+        binding.tvNameError.visibility = View.GONE
+        binding.tvPasswordError.text = ""
+        binding.tvPasswordError.visibility = View.GONE
     }
 
     companion object {
         @JvmStatic
-        fun newInstance() =
-            LoginFragment().apply {
-            }
+        fun newInstance() = LoginFragment()
     }
 }
