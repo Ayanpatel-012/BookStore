@@ -19,6 +19,4 @@ class BookEntity(
     var lastChapterDate: Int,
     @ColumnInfo(name = "title")
     var title: String,
-    @ColumnInfo(name = "fav")
-    var fav: Boolean
 )

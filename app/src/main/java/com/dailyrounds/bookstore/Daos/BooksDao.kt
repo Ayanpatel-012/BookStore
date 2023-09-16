@@ -7,13 +7,9 @@ import com.dailyrounds.bookstore.Entities.BookEntity
 import com.dailyrounds.bookstore.Utils.Constants
 
 @Dao
-interface BooksDao{
+interface BooksDao {
     @Insert
     suspend fun insert(book: BookEntity)
-
-    @Query(Constants.UPDATE_BOOK_QUERY)
-    suspend fun update(id:String,newValue:Boolean)
-
     @Query(Constants.GET_BOOKS_QUERY)
-    suspend fun getBooks():List<BookEntity>
+    suspend fun getBooks(): List<BookEntity>
 }

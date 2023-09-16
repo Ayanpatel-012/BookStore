@@ -69,6 +69,7 @@ class BooksActivity : AppCompatActivity(), EventClickListener {
     private fun initEventListeners() {
         binding.logout.setOnClickListener {
             sharedPrefs.edit().putBoolean(Constants.LOGGED_IN_STATUS, false).commit()
+            sharedPrefs.edit().putString(Constants.LOGGED_IN_USERID,"").commit()
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
@@ -80,6 +81,6 @@ class BooksActivity : AppCompatActivity(), EventClickListener {
     }
 
     override fun onFavClicked(id: String, newValue: Boolean) {
-        viewmodel.updateBook(id,newValue)
+
     }
 }

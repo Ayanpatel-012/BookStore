@@ -1,5 +1,7 @@
 package com.dailyrounds.bookstore.Fragments
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputFilter
 import androidx.fragment.app.Fragment
@@ -13,6 +15,7 @@ import com.dailyrounds.bookstore.Database.BookStoreDatabase
 import com.dailyrounds.bookstore.R
 import com.dailyrounds.bookstore.Repositories.BookRepository
 import com.dailyrounds.bookstore.Repositories.UserRepository
+import com.dailyrounds.bookstore.Utils.Constants
 import com.dailyrounds.bookstore.ViewModels.LoginViewModel
 import com.dailyrounds.bookstore.ViewModels.LoginViewModelFactory
 import com.dailyrounds.bookstore.databinding.FragmentLoginBinding
@@ -22,6 +25,7 @@ class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     lateinit var viewModel: LoginViewModel
     lateinit var database: BookStoreDatabase
+    lateinit var sharedPrefs:SharedPreferences
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -31,10 +35,15 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initSharedPreference()
         initDatabase()
         initViewModel()
         initObservers()
         initTextWatchersAndListener()
+    }
+
+    private fun initSharedPreference() {
+        sharedPrefs = requireActivity().getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE)
     }
 
     private fun initTextWatchersAndListener() {
@@ -44,6 +53,7 @@ class LoginFragment : Fragment() {
             sourceText.replace(" ", "")
         }
         binding.etPassword.apply { filters += avoidSpaceFilter }
+        binding.etName.apply { filters += avoidSpaceFilter }
         binding.etPassword.addTextChangedListener(onTextChanged = { text, _, _, _ ->
             validatePassword(text.toString())
         })
@@ -86,6 +96,8 @@ class LoginFragment : Fragment() {
         viewModel.loginStatus.observe(requireActivity()) {
             when (it) {
                 LoginStatus.CANLOGIN -> {
+                    val username=binding.etName.text.toString().trim()
+                    sharedPrefs.edit().putString(Constants.LOGGED_IN_USERID,username).commit()
                     showToast("Hi! Welcome to the books world")
                     showLoader(false)
                 }

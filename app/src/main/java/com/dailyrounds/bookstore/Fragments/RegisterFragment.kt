@@ -1,5 +1,7 @@
 package com.dailyrounds.bookstore.Fragments
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputFilter
 import androidx.fragment.app.Fragment
@@ -15,6 +17,7 @@ import com.dailyrounds.bookstore.Models.Country
 import com.dailyrounds.bookstore.R
 import com.dailyrounds.bookstore.Repositories.BookRepository
 import com.dailyrounds.bookstore.Repositories.UserRepository
+import com.dailyrounds.bookstore.Utils.Constants
 import com.dailyrounds.bookstore.ViewModels.LoginViewModel
 import com.dailyrounds.bookstore.ViewModels.LoginViewModelFactory
 import com.dailyrounds.bookstore.databinding.FragmentRegisterBinding
@@ -25,6 +28,7 @@ class RegisterFragment : Fragment() {
     lateinit var database: BookStoreDatabase
     var countryData = ArrayList<Country>()
     private lateinit var binding: FragmentRegisterBinding
+    private lateinit var sharedPrefs:SharedPreferences
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -34,11 +38,16 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initSharedPreference()
         initDatabase()
         initViewModel()
         initData()
         initObservers()
         initTextWatchersAndListener()
+    }
+
+    private fun initSharedPreference() {
+        sharedPrefs=requireActivity().getSharedPreferences(Constants.SHARED_PREF_NAME,Context.MODE_PRIVATE)
     }
 
     private fun initData() {
@@ -57,6 +66,8 @@ class RegisterFragment : Fragment() {
                     showLoader(false)
                 }
                 RegistrationStatus.REGISTERED -> {
+                    val username=binding.etName.text.toString().trim()
+                    sharedPrefs.edit().putString(Constants.LOGGED_IN_USERID,username).commit()
                     showToast("Successfully registered")
                     showLoader(false)
                 }
@@ -103,6 +114,7 @@ class RegisterFragment : Fragment() {
         }
 
         binding.etPassword.apply { filters += avoidSpaceFilter }
+        binding.etName.apply { filters += avoidSpaceFilter }
         binding.etPassword.addTextChangedListener(onTextChanged = { text, _, _, _ ->
             validatePassword(text.toString())
         })
