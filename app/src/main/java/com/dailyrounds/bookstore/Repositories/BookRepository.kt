@@ -14,6 +14,7 @@ class BookRepository(private val booksDao: BooksDao) {
                 image = it.image,
                 lastChapterDate = it.lastChapterDate,
                 title = it.title,
+                fav = it.fav,
             )
         }.forEach {
             try {
@@ -33,8 +34,16 @@ class BookRepository(private val booksDao: BooksDao) {
                 image = it.image,
                 lastChapterDate = it.lastChapterDate,
                 title = it.title,
-                fav = false)}
+                fav = it.fav)}
         }
         catch (e:Exception){throw e}
+    }
+    suspend fun updateBook(bookId:String,newValue:Boolean){
+        try {
+            booksDao.update(bookId,newValue)
+        }
+        catch (e:Exception){
+            throw e
+        }
     }
 }

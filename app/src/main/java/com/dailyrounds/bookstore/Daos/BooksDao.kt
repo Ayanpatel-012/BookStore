@@ -12,4 +12,6 @@ interface BooksDao {
     suspend fun insert(book: BookEntity)
     @Query(Constants.GET_BOOKS_QUERY)
     suspend fun getBooks(): List<BookEntity>
+    @Query(Constants.UPDATE_BOOK_QUERY)
+    suspend fun update(id:String,newValue:Boolean)
 }

@@ -68,11 +68,18 @@ class BooksActivity : AppCompatActivity(), EventClickListener {
 
     private fun initEventListeners() {
         binding.logout.setOnClickListener {
-            sharedPrefs.edit().putBoolean(Constants.LOGGED_IN_STATUS, false).commit()
-            sharedPrefs.edit().putString(Constants.LOGGED_IN_USERID,"").commit()
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
+            logout()
         }
+    }
+
+    private fun logout() {
+        sharedPrefs.edit().putBoolean(Constants.LOGGED_IN_STATUS, false).commit()
+        sharedPrefs.edit().putString(Constants.LOGGED_IN_USERID,"").commit()
+        bookList.forEach {
+            viewmodel.updateBook(it.id,false)
+        }
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 
     private fun initBinding() {
@@ -81,6 +88,24 @@ class BooksActivity : AppCompatActivity(), EventClickListener {
     }
 
     override fun onFavClicked(id: String, newValue: Boolean) {
+        viewmodel.updateBook(id,newValue)
+    }
+
+    override fun openBookDetails(book: Book) {
+        val intent=Intent(this,BookDetailsActivity::class.java)
+        val bundle=Bundle()
+        bundle.apply {
+            putString(Constants.BOOK_ID,book.id)
+            putString(Constants.BOOK_TITLE,book.title)
+            putString(Constants.BOOK_SUBTITLE,book.alias)
+            putInt(Constants.BOOK_HITS,book.hits)
+            putBoolean(Constants.BOOK_IS_FAV,book.fav)
+            putString(Constants.BOOK_IMG,book.image)
+
+        }
+        intent.putExtra(Constants.BOOK_BUNDLE,bundle)
+        startActivity(intent)
 
     }
+
 }

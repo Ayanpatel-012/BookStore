@@ -12,6 +12,7 @@ package com.dailyrounds.bookstore.Utils
          const val GET_BOOKS_QUERY="SELECT * FROM $BOOK_TABLE"
          const val GET_USERS_QUERY="SELECT * FROM $USER_TABLE"
          const val GET_COUNTRIES_QUERY="SELECT * FROM $COUNTRY_TABLE"
+         const val UPDATE_BOOK_QUERY="UPDATE $BOOK_TABLE SET fav = :newValue WHERE id= :id"
 
          //Shared Preference keys
          const val SHARED_PREF_NAME="MySharedPref"
@@ -22,6 +23,14 @@ package com.dailyrounds.bookstore.Utils
          //Misllaneous
          const val ASSETS_PATH_BOOKS="BooksData.json"
          const val ASSETS_PATH_COUNTRY="CountryData.json"
+         const val BOOK_ID="bookId"
+         const val BOOK_TITLE="bookTitle"
+         const val BOOK_SUBTITLE="bookSubTitle"
+         const val BOOK_HITS="bookHits"
+         const val BOOK_IS_FAV="bookIsFav"
+         const val BOOK_IMG="bookImg"
+         const val BOOK_BUNDLE="bookBundle"
+
 
 
 

@@ -24,6 +24,15 @@ class BookViewModel(private val repository: BookRepository) : ViewModel() {
             }
         }
     }
+    fun updateBook(id: String, newValue: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                repository.updateBook(id, newValue)
+            } catch (e: Exception) {
+
+            }
+        }
+    }
 
 }
 
