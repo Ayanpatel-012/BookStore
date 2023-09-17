@@ -1,16 +1,12 @@
 package com.dailyrounds.bookstore.ViewModels
 
-import android.util.Log
-import androidx.databinding.ObservableBoolean
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
-import com.dailyrounds.bookstore.Models.*
+import androidx.lifecycle.*
+import com.dailyrounds.bookstore.Models.BookList
+import com.dailyrounds.bookstore.Models.Country
+import com.dailyrounds.bookstore.Models.CountryList
+import com.dailyrounds.bookstore.Models.User
 import com.dailyrounds.bookstore.Repositories.BookRepository
 import com.dailyrounds.bookstore.Repositories.UserRepository
-import com.dailyrounds.bookstore.Utils.Constants
 import com.dailyrounds.bookstore.enums.LoginStatus
 import com.dailyrounds.bookstore.enums.RegistrationStatus
 import kotlinx.coroutines.Dispatchers

@@ -1,6 +1,5 @@
 package com.dailyrounds.bookstore.Repositories
 
-import android.util.Log
 import com.dailyrounds.bookstore.Daos.CountryDao
 import com.dailyrounds.bookstore.Daos.UserDao
 import com.dailyrounds.bookstore.Entities.CountryEntity
@@ -55,10 +54,10 @@ class UserRepository(private val userDao: UserDao, private val countryDao: Count
     suspend fun saveCountries(countryList: CountryList) {
 
         countryList.map {
-            CountryEntity(CountryCode=it.code, CountryName = it.name )
+            CountryEntity(CountryCode = it.code, CountryName = it.name)
         }.forEach {
             try {
-                    countryDao.insert(it)
+                countryDao.insert(it)
             } catch (e: Exception) {
                 throw e
             }

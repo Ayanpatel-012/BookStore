@@ -68,10 +68,7 @@ class RegisterFragment : Fragment() {
                 adapter = ArrayAdapter(context, R.layout.spinner_item, countries)
                 onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(
-                        parent: AdapterView<*>,
-                        view: View?,
-                        position: Int,
-                        id: Long
+                        parent: AdapterView<*>, view: View?, position: Int, id: Long
                     ) {
                         selectedCountry = countries[position]
                     }
@@ -84,8 +81,10 @@ class RegisterFragment : Fragment() {
         viewModel.registrationStatus.observe(requireActivity()) {
             when (it) {
                 RegistrationStatus.USER_PRESENT -> {
-                    binding.tvNameError.text = "username already exists!"
-                    binding.tvNameError.visibility = View.VISIBLE
+                    binding.tvNameError.apply {
+                        text = "username already exists!"
+                        visibility = View.VISIBLE
+                    }
                     showLoader(false)
                 }
                 RegistrationStatus.REGISTERED -> {
@@ -136,21 +135,23 @@ class RegisterFragment : Fragment() {
             sourceText.replace(" ", "")
         }
 
-        binding.etPassword.apply { filters += avoidSpaceFilter }
-        binding.etName.apply { filters += avoidSpaceFilter }
-        binding.etPassword.addTextChangedListener(onTextChanged = { text, _, _, _ ->
-            validatePassword(text.toString())
-        })
-        binding.etName.addTextChangedListener(onTextChanged = { text, _, _, _ ->
-            validateName(text.toString())
-        })
-        binding.btnRegister.setOnClickListener {
-            val username = binding?.etName?.text.toString().trim()
-            val password = binding?.etPassword?.text.toString().trim()
-            if (validateName(username) && validatePassword(password)) {
-                viewModel.registerUser(
-                    username, password, selectedCountry
-                )
+        binding.apply {
+            etPassword.apply { filters += avoidSpaceFilter }
+            etName.apply { filters += avoidSpaceFilter }
+            etPassword.addTextChangedListener(onTextChanged = { text, _, _, _ ->
+                validatePassword(text.toString())
+            })
+            etName.addTextChangedListener(onTextChanged = { text, _, _, _ ->
+                validateName(text.toString())
+            })
+            btnRegister.setOnClickListener {
+                val username = etName.text.toString().trim()
+                val password = etPassword.text.toString().trim()
+                if (validateName(username) && validatePassword(password)) {
+                    viewModel.registerUser(
+                        username, password, selectedCountry
+                    )
+                }
             }
         }
     }
@@ -161,8 +162,10 @@ class RegisterFragment : Fragment() {
             binding.tvNameError.visibility = View.VISIBLE
             return false
         }
-        binding.tvNameError.text = ""
-        binding.tvNameError.visibility = View.GONE
+        binding.tvNameError.apply {
+            text = ""
+            visibility = View.GONE
+        }
 
         return true
 
@@ -184,14 +187,14 @@ class RegisterFragment : Fragment() {
         }
 
         if (password.length >= 8) {
-            isAtLeast8 = true;
+            isAtLeast8 = true
             binding.frameOne.setCardBackgroundColor(
                 ContextCompat.getColor(
                     requireActivity(), R.color.holo_green_dark
                 )
             )
         } else {
-            isAtLeast8 = false;
+            isAtLeast8 = false
             binding.frameOne.setCardBackgroundColor(
                 ContextCompat.getColor(
                     requireActivity(), R.color.lighter_gray
@@ -199,14 +202,14 @@ class RegisterFragment : Fragment() {
             )
         }
         if (password.matches(Regex("(.*[A-Z].*)"))) {
-            hasUppercase = true;
+            hasUppercase = true
             binding.frameTwo.setCardBackgroundColor(
                 ContextCompat.getColor(
                     requireActivity(), R.color.holo_green_dark
                 )
             )
         } else {
-            hasUppercase = false;
+            hasUppercase = false
             binding.frameTwo.setCardBackgroundColor(
                 ContextCompat.getColor(
                     requireActivity(), R.color.lighter_gray
@@ -236,7 +239,7 @@ class RegisterFragment : Fragment() {
                 )
             )
         } else {
-            hasSymbol = false;
+            hasSymbol = false
             binding.frameFour.setCardBackgroundColor(
                 ContextCompat.getColor(
                     requireActivity(), R.color.lighter_gray

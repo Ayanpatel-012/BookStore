@@ -1,3 +1,3 @@
 package com.dailyrounds.bookstore.Models
 
-class BookList:ArrayList<Book>()
+class BookList : ArrayList<Book>()

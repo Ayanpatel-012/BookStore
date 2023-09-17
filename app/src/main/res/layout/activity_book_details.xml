@@ -12,10 +12,11 @@
             android:id="@+id/bookDetailsTitle"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginStart="10dp"
-            android:text="This is your amazing book!"
+            android:text="Have a look at this amazing book!"
             android:textColor="@color/black"
-            android:textSize="25sp"
+            android:textSize="22sp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -111,6 +112,7 @@
                 android:layout_height="match_parent"
                 android:text="@string/lorem_ipsum"
                 android:textColor="@color/black"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

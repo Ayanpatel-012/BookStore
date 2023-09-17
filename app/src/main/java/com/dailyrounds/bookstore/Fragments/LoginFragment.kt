@@ -4,15 +4,14 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputFilter
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.dailyrounds.bookstore.Database.BookStoreDatabase
-import com.dailyrounds.bookstore.R
 import com.dailyrounds.bookstore.Repositories.BookRepository
 import com.dailyrounds.bookstore.Repositories.UserRepository
 import com.dailyrounds.bookstore.Utils.Constants
@@ -53,43 +52,53 @@ class LoginFragment : Fragment() {
             if (" " !in sourceText) return@InputFilter null // keep original
             sourceText.replace(" ", "")
         }
-        binding.etPassword.apply { filters += avoidSpaceFilter }
-        binding.etName.apply { filters += avoidSpaceFilter }
-        binding.etPassword.addTextChangedListener(onTextChanged = { text, _, _, _ ->
-            validatePassword(text.toString())
-        })
-        binding.etName.addTextChangedListener(onTextChanged = { text, _, _, _ ->
-            validateName(text.toString())
-        })
-        binding.btnLogin.setOnClickListener {
-            val username = binding?.etName?.text.toString().trim()
-            val password = binding?.etPassword?.text.toString().trim()
-            if (validateName(username) && validatePassword(password)) {
-                viewModel.loginUser(username, password)
+        binding.apply {
+            etPassword.apply { filters += avoidSpaceFilter }
+            etName.apply { filters += avoidSpaceFilter }
+            etPassword.addTextChangedListener(onTextChanged = { text, _, _, _ ->
+                validatePassword(text.toString())
+            })
+            etName.addTextChangedListener(onTextChanged = { text, _, _, _ ->
+                validateName(text.toString())
+            })
+            btnLogin.setOnClickListener {
+                val username = etName.text.toString().trim()
+                val password = etPassword.text.toString().trim()
+                if (validateName(username) && validatePassword(password)) {
+                    viewModel.loginUser(username, password)
+                }
             }
         }
     }
 
     private fun validateName(username: String): Boolean {
         if (username.isNullOrEmpty()) {
-            binding.tvNameError.text = "Please enter username"
-            binding.tvNameError.visibility = View.VISIBLE
+            binding.apply {
+                tvNameError.text = "Please enter username"
+                tvNameError.visibility = View.VISIBLE
+            }
             return false
         }
-        binding.tvNameError.text = ""
-        binding.tvNameError.visibility = View.GONE
+        binding.apply {
+            tvNameError.text = ""
+            tvNameError.visibility = View.GONE
+        }
 
         return true
     }
 
     private fun validatePassword(password: String?): Boolean {
         if (password.isNullOrEmpty()) {
-            binding.tvPasswordError.text = "Please enter a password"
-            binding.tvPasswordError.visibility = View.VISIBLE
+            binding.apply {
+                tvPasswordError.text = "Please enter a password"
+                tvPasswordError.visibility = View.VISIBLE
+            }
             return false
         }
-        binding.tvPasswordError.text = ""
-        binding.tvPasswordError.visibility = View.GONE
+        binding.apply {
+            tvPasswordError.text = ""
+            tvPasswordError.visibility = View.GONE
+        }
         return true
     }
 
@@ -155,10 +164,12 @@ class LoginFragment : Fragment() {
     }
 
     private fun clearViews() {
-        binding.tvNameError.text = ""
-        binding.tvNameError.visibility = View.GONE
-        binding.tvPasswordError.text = ""
-        binding.tvPasswordError.visibility = View.GONE
+        binding.apply {
+            tvNameError.text = ""
+            tvNameError.visibility = View.GONE
+            tvPasswordError.text = ""
+            tvPasswordError.visibility = View.GONE
+        }
     }
 
     companion object {

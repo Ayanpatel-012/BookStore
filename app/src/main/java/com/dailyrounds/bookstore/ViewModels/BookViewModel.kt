@@ -1,13 +1,8 @@
 package com.dailyrounds.bookstore.ViewModels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.dailyrounds.bookstore.Models.Book
 import com.dailyrounds.bookstore.Repositories.BookRepository
-
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -15,8 +10,8 @@ class BookViewModel(private val repository: BookRepository) : ViewModel() {
 
     val booksLiveData: LiveData<List<Book>> get() = _booksLiveData
     private var _booksLiveData = MutableLiveData<List<Book>>()
-    val sortingAlgo:LiveData<Int> get()=_sortingAlgo
-    private val _sortingAlgo=MutableLiveData<Int>()
+    val sortingAlgo: LiveData<Int> get() = _sortingAlgo
+    private val _sortingAlgo = MutableLiveData<Int>()
     fun getBooks() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -36,8 +31,9 @@ class BookViewModel(private val repository: BookRepository) : ViewModel() {
             }
         }
     }
-    fun updateSortingAlgo(newAlgo:Int){
-            _sortingAlgo.value=newAlgo
+
+    fun updateSortingAlgo(newAlgo: Int) {
+        _sortingAlgo.value = newAlgo
     }
 
 }

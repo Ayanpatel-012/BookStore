@@ -24,25 +24,30 @@ class BookRepository(private val booksDao: BooksDao) {
             }
         }
     }
-    suspend fun getBooks():List<Book>{
+
+    suspend fun getBooks(): List<Book> {
         try {
 
-            return booksDao.getBooks().map { Book(
-                id = it.id,
-                alias = it.alias,
-                hits = it.hits,
-                image = it.image,
-                lastChapterDate = it.lastChapterDate,
-                title = it.title,
-                fav = it.fav)}
+            return booksDao.getBooks().map {
+                Book(
+                    id = it.id,
+                    alias = it.alias,
+                    hits = it.hits,
+                    image = it.image,
+                    lastChapterDate = it.lastChapterDate,
+                    title = it.title,
+                    fav = it.fav
+                )
+            }
+        } catch (e: Exception) {
+            throw e
         }
-        catch (e:Exception){throw e}
     }
-    suspend fun updateBook(bookId:String,newValue:Boolean){
+
+    suspend fun updateBook(bookId: String, newValue: Boolean) {
         try {
-            booksDao.update(bookId,newValue)
-        }
-        catch (e:Exception){
+            booksDao.update(bookId, newValue)
+        } catch (e: Exception) {
             throw e
         }
     }

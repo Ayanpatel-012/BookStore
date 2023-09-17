@@ -63,52 +63,54 @@ class BooksActivity : AppCompatActivity(), EventClickListener {
             sortedBy=it
             when (it) {
                 Constants.BY_TITLE -> {
-                    binding.run {
+                    binding.apply {
                         sortTitle.setActive(this@BooksActivity)
                         sortFavs.setInactive(this@BooksActivity)
                         sortHits.setInactive(this@BooksActivity)
                     }
-                    sortedBooks.run {
-                        sortedBooks.clear()
-                        sortedBooks.addAll(bookList.sortedBy { book -> book.title })
+                    sortedBooks.apply {
+                        clear()
+                        addAll(bookList.sortedBy { book -> book.title })
                         adaptor?.notifyDataSetChanged()
                     }
 
                 }
                 Constants.BY_HITS -> {
-                    binding.run {
+                    binding.apply {
                         sortTitle.setInactive(this@BooksActivity)
                         sortFavs.setInactive(this@BooksActivity)
                         sortHits.setActive(this@BooksActivity)
                     }
-                    sortedBooks.run {
-                        sortedBooks.clear()
-                        sortedBooks.addAll(bookList.sortedBy { book -> book.hits })
+                    sortedBooks.apply {
+                        clear()
+                        addAll(bookList.sortedBy { book -> book.hits })
                         adaptor?.notifyDataSetChanged()
                     }
                 }
                 Constants.BY_FAV -> {
-                    binding.run {
+                    binding.apply {
                         sortTitle.setInactive(this@BooksActivity)
                         sortFavs.setActive(this@BooksActivity)
                         sortHits.setInactive(this@BooksActivity)
                     }
-                    sortedBooks.run {
-                        sortedBooks.clear()
-                        sortedBooks.addAll(bookList.filter { book -> book.fav })
-                        sortedBooks.addAll(bookList.filterNot { book -> book.fav })
+                    sortedBooks.apply {
+                        clear()
+                        addAll(bookList.filter { book -> book.fav })
+                        addAll(bookList.filterNot { book -> book.fav })
                         adaptor?.notifyDataSetChanged()
                     }
 
                 }
                 else -> {
-                    binding.run {
+                    binding.apply {
                         sortTitle.setInactive(this@BooksActivity)
                         sortFavs.setInactive(this@BooksActivity)
                         sortHits.setInactive(this@BooksActivity)
                     }
-                    sortedBooks.clear()
-                    sortedBooks.addAll(bookList)
+                    sortedBooks.apply {
+                        clear()
+                        addAll(bookList)
+                    }
                     adaptor?.notifyDataSetChanged()
                 }
             }

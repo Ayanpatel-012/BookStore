@@ -8,7 +8,8 @@ fun TextView.setActive(context: Context) {
     setBackgroundResource(R.drawable.btn_bg_black)
     setTextColor(context.getColor(R.color.white))
 }
-fun TextView.setInactive(context: Context){
+
+fun TextView.setInactive(context: Context) {
     setBackgroundResource(R.drawable.btn_bg_white)
     setTextColor(context.getColor(R.color.black))
 }
