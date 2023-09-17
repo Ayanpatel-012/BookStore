@@ -15,6 +15,8 @@ class BookViewModel(private val repository: BookRepository) : ViewModel() {
 
     val booksLiveData: LiveData<List<Book>> get() = _booksLiveData
     private var _booksLiveData = MutableLiveData<List<Book>>()
+    val sortingAlgo:LiveData<Int> get()=_sortingAlgo
+    private val _sortingAlgo=MutableLiveData<Int>()
     fun getBooks() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -24,6 +26,7 @@ class BookViewModel(private val repository: BookRepository) : ViewModel() {
             }
         }
     }
+
     fun updateBook(id: String, newValue: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -32,6 +35,9 @@ class BookViewModel(private val repository: BookRepository) : ViewModel() {
 
             }
         }
+    }
+    fun updateSortingAlgo(newAlgo:Int){
+            _sortingAlgo.value=newAlgo
     }
 
 }

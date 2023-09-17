@@ -16,6 +16,8 @@ import com.dailyrounds.bookstore.R
 import com.dailyrounds.bookstore.Repositories.BookRepository
 import com.dailyrounds.bookstore.Repositories.UserRepository
 import com.dailyrounds.bookstore.Utils.Constants
+import com.dailyrounds.bookstore.Utils.setActive
+import com.dailyrounds.bookstore.Utils.setInactive
 import com.dailyrounds.bookstore.ViewModels.LoginViewModel
 import com.dailyrounds.bookstore.ViewModels.LoginViewModelFactory
 import com.dailyrounds.bookstore.databinding.ActivityLoginBinding
@@ -42,14 +44,15 @@ class LoginActivity : AppCompatActivity() {
         initObservers()
         initListeners()
     }
-/*
-This is the function which checks whether the user is logged in or not if yes it opens the books activity
- */
+
+    /*
+    This is the function which checks whether the user is logged in or not if yes it opens the books activity
+     */
     private fun updateUI() {
-       if(sharedPrefs.getBoolean(Constants.LOGGED_IN_STATUS,false)){
-           startActivity(Intent(this,BooksActivity::class.java))
-           finish()
-       }
+        if (sharedPrefs.getBoolean(Constants.LOGGED_IN_STATUS, false)) {
+            startActivity(Intent(this, BooksActivity::class.java))
+            finish()
+        }
     }
 
     private fun initListeners() {
@@ -59,12 +62,8 @@ This is the function which checks whether the user is logged in or not if yes it
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainerView, LoginFragment.newInstance())
                         .setReorderingAllowed(true).addToBackStack(null).commit()
-
-                    // Update button backgrounds
-                    loginBtn.setBackgroundResource(R.drawable.btn_bg_black)
-                    loginBtn.setTextColor(getColor(R.color.white))
-                    Rgtrbtn.setBackgroundResource(R.drawable.btn_bg_white)
-                    Rgtrbtn.setTextColor(getColor(R.color.black))
+                    loginBtn.setActive(this@LoginActivity)
+                    Rgtrbtn.setInactive(this@LoginActivity)
                 }
             }
             Rgtrbtn.setOnClickListener {
@@ -72,13 +71,8 @@ This is the function which checks whether the user is logged in or not if yes it
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainerView, RegisterFragment.newInstance())
                         .setReorderingAllowed(true).addToBackStack(null).commit()
-
-                    // Update button backgrounds
-                    loginBtn.setBackgroundResource(R.drawable.btn_bg_white)
-                    loginBtn.setTextColor(getColor(R.color.black))
-                    Rgtrbtn.setBackgroundResource(R.drawable.btn_bg_black)
-                    Rgtrbtn.setTextColor(getColor(R.color.white))
-
+                    loginBtn.setInactive(this@LoginActivity)
+                    Rgtrbtn.setActive(this@LoginActivity)
                 }
             }
         }
@@ -91,27 +85,16 @@ This is the function which checks whether the user is logged in or not if yes it
     }
 
     private fun initObservers() {
-        viewModel.countryLiveData.observe(this) {
-        }
+        viewModel.countryLiveData.observe(this) {}
         viewModel.registrationStatus.observe(this) {
             when (it) {
-                RegistrationStatus.REGISTERED -> {
-                    sharedPrefs.edit().putBoolean(Constants.LOGGED_IN_STATUS,true).commit()
-                    startActivity(Intent(this, BooksActivity::class.java))
-                    finish()
-                }
-
+                RegistrationStatus.REGISTERED -> loginUser()
                 else -> {}
             }
         }
         viewModel.loginStatus.observe(this) {
             when (it) {
-                LoginStatus.CANLOGIN -> {
-                    sharedPrefs.edit().putBoolean(Constants.LOGGED_IN_STATUS,true).commit()
-                    startActivity(Intent(this, BooksActivity::class.java))
-                    finish()
-                }
-
+                LoginStatus.CANLOGIN -> loginUser()
                 else -> {}
             }
         }
@@ -172,6 +155,15 @@ This is the function which checks whether the user is logged in or not if yes it
             e.printStackTrace()
             return ""
         }
+    }
+
+    private fun loginUser() {
+        sharedPrefs.edit().apply {
+            putBoolean(Constants.LOGGED_IN_STATUS, true)
+            putInt(Constants.SORTING_ALGO, Constants.BY_DEFAULT)
+        }.commit()
+        startActivity(Intent(this, BooksActivity::class.java))
+        finish()
     }
 
 }

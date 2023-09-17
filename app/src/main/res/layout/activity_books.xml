@@ -52,8 +52,8 @@
                 android:layout_marginStart="5dp"
                 android:textAlignment="center"
                 android:gravity="center"
-                android:background="@drawable/btn_bg_black"
-                android:textColor="#FFFFFF" />
+                android:background="@drawable/btn_bg_white"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/sortHits"
@@ -64,8 +64,8 @@
                 android:gravity="center"
                 android:layout_marginStart="5dp"
                 android:textAlignment="center"
-                android:background="@drawable/btn_bg_black"
-                android:textColor="#FFFFFF" />
+                android:background="@drawable/btn_bg_white"
+                android:textColor="@color/black"  />
 
             <TextView
                 android:id="@+id/sortFavs"
@@ -76,8 +76,8 @@
                 android:text="by Favs"
                 android:gravity="center"
                 android:textAlignment="center"
-                android:background="@drawable/btn_bg_black"
-                android:textColor="#FFFFFF" />
+                android:background="@drawable/btn_bg_white"
+                android:textColor="@color/black"  />
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
