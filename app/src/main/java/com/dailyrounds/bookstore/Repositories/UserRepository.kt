@@ -17,23 +17,11 @@ class UserRepository(private val userDao: UserDao, private val countryDao: Count
         }
     }
 
-    suspend fun getUsers(): List<User> {
-        try {
-            return userDao.getUsers().map {
-                User(it.userId, it.password, it.country)
-            }
-        } catch (e: Exception) {
-            throw e
-        }
-    }
 
     suspend fun getUserById(userId: String): User? {
         try {
-            val usersList = getUsers()
-            for (user in usersList) {
-                if (user.username == userId) return user
-            }
-            return null
+            val userEntity = userDao.getUserById(userId) ?: return null
+            return User(userEntity.userId, userEntity.password, userEntity.country)
         } catch (e: Exception) {
             throw e
         }

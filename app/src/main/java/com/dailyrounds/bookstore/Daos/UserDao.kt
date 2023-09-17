@@ -9,7 +9,8 @@ import com.dailyrounds.bookstore.Utils.Constants
 @Dao
 interface UserDao {
     @Insert
-    suspend fun insert(user:UserEntity)
-    @Query(Constants.GET_USERS_QUERY)
-    suspend fun getUsers():List<UserEntity>
+    suspend fun insert(user: UserEntity)
+
+    @Query(Constants.GET_USERBYID_QUERY)
+    suspend fun getUserById(id: String): UserEntity?
 }
