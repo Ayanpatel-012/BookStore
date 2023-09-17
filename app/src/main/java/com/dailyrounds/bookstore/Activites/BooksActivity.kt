@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dailyrounds.bookstore.Adaptors.Adaptor
@@ -27,6 +28,7 @@ class BooksActivity : AppCompatActivity(), EventClickListener {
     private var bookList = ArrayList<Book>()
     private var sortedBooks = ArrayList<Book>()
     private var adaptor: Adaptor? = null
+    private var sortedBy=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initSharedPreference()
@@ -58,6 +60,7 @@ class BooksActivity : AppCompatActivity(), EventClickListener {
         }
         viewmodel.sortingAlgo.observe(this) {
             sharedPrefs.edit().putInt(Constants.SORTING_ALGO, it).commit()
+            sortedBy=it
             when (it) {
                 Constants.BY_TITLE -> {
                     binding.run {
@@ -131,9 +134,24 @@ class BooksActivity : AppCompatActivity(), EventClickListener {
             logout.setOnClickListener {
                 logout()
             }
-            binding.sortTitle.setOnClickListener { viewmodel.updateSortingAlgo(Constants.BY_TITLE) }
-            binding.sortFavs.setOnClickListener { viewmodel.updateSortingAlgo(Constants.BY_FAV) }
-            binding.sortHits.setOnClickListener { viewmodel.updateSortingAlgo(Constants.BY_HITS) }
+            sortTitle.setOnClickListener { viewmodel.updateSortingAlgo(Constants.BY_TITLE) ; switch1.isChecked=false}
+            sortFavs.setOnClickListener { viewmodel.updateSortingAlgo(Constants.BY_FAV);switch1.isChecked=false}
+            sortHits.setOnClickListener { viewmodel.updateSortingAlgo(Constants.BY_HITS) ;switch1.isChecked=false}
+            switch1.setOnCheckedChangeListener{_,isChecked->
+                if(isChecked) {
+                    when(sortedBy){
+                        Constants.BY_TITLE->{sortedBooks.clear(); sortedBooks.addAll(bookList.sortedByDescending { book ->book.title  })}
+                        Constants.BY_HITS->{sortedBooks.clear(); sortedBooks.addAll(bookList.sortedByDescending { book ->book.hits  })}
+                    }
+                }
+                else {
+                    when(sortedBy){
+                        Constants.BY_TITLE->{sortedBooks.clear(); sortedBooks.addAll(bookList.sortedBy { book ->book.title  })}
+                        Constants.BY_HITS->{sortedBooks.clear(); sortedBooks.addAll(bookList.sortedBy { book ->book.hits  })}
+                    }
+                }
+                adaptor?.notifyDataSetChanged()
+            }
         }
 
     }

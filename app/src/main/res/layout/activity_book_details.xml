@@ -7,12 +7,23 @@
         android:layout_height="match_parent"
         android:padding="10dp"
         android:background="@color/white">
+        <TextView
+            android:id="@+id/bookDetailsTitle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="This is your amazing book!"
+            android:textSize="25sp"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/cltop"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    app:layout_constraintTop_toBottomOf="@+id/bookDetailsTitle">
 
     <ImageView
         android:id="@+id/bookImg"
