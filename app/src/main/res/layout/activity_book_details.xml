@@ -5,113 +5,115 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:padding="10dp">
+
         <TextView
             android:id="@+id/bookDetailsTitle"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="This is your amazing book!"
-            android:textSize="25sp"
             android:layout_marginStart="10dp"
+            android:text="This is your amazing book!"
             android:textColor="@color/black"
+            android:textSize="25sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/cltop"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="20dp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/bookDetailsTitle">
-
-    <ImageView
-        android:id="@+id/bookImg"
-        android:layout_width="70dp"
-        android:layout_height="100dp"
-        android:scaleType="fitXY"
-        android:layout_marginStart="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clMain"
-        android:layout_width="0dp"
-        android:layout_marginStart="15dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/bookImg"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/favImg"
-        android:padding="5dp"
-        android:layout_marginTop="10dp">
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text=""
-            android:textColor="@color/black"
-            android:textSize="16sp"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/subTitle"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cltop"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
-            android:text=""
-            android:textColor="@color/grey"
-            android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
+            app:layout_constraintTop_toBottomOf="@+id/bookDetailsTitle">
 
-        <TextView
-            android:id="@+id/hits"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="hits:"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@+id/subTitle" />
+            <ImageView
+                android:id="@+id/bookImg"
+                android:layout_width="70dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="15dp"
+                android:scaleType="fitXY"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/hitsCnt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@+id/hits"
-            android:text=""
-            android:textColor="@color/black"
-            android:textSize="14sp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clMain"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                app:layout_constraintEnd_toStartOf="@+id/favImg"
+                app:layout_constraintStart_toEndOf="@id/bookImg"
+                app:layout_constraintTop_toTopOf="parent">
 
-            app:layout_constraintTop_toBottomOf="@+id/subTitle" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/favImg"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:src="@drawable/fav_uncheck"
-        app:layout_constraintBottom_toBottomOf="@+id/bookImg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/bookImg" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/subTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/grey"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/title" />
+
+                <TextView
+                    android:id="@+id/hits"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="hits:"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/subTitle" />
+
+                <TextView
+                    android:id="@+id/hitsCnt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/hits"
+
+                    app:layout_constraintTop_toBottomOf="@+id/subTitle" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                android:id="@+id/favImg"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/fav_uncheck"
+                app:layout_constraintBottom_toBottomOf="@+id/bookImg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/bookImg" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/cltop"
+            android:padding="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:padding="20dp">
+            app:layout_constraintTop_toBottomOf="@+id/cltop">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/lorem_ipsum"
                 android:textColor="@color/black"
-                android:text="@string/lorem_ipsum" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -25,7 +25,7 @@ class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     lateinit var viewModel: LoginViewModel
     lateinit var database: BookStoreDatabase
-    lateinit var sharedPrefs:SharedPreferences
+    lateinit var sharedPrefs: SharedPreferences
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -43,7 +43,8 @@ class LoginFragment : Fragment() {
     }
 
     private fun initSharedPreference() {
-        sharedPrefs = requireActivity().getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE)
+        sharedPrefs =
+            requireActivity().getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE)
     }
 
     private fun initTextWatchersAndListener() {
@@ -96,9 +97,9 @@ class LoginFragment : Fragment() {
         viewModel.loginStatus.observe(requireActivity()) {
             when (it) {
                 LoginStatus.CANLOGIN -> {
-                    val username=binding.etName.text.toString().trim()
-                    sharedPrefs.edit().putString(Constants.LOGGED_IN_USERID,username).commit()
-                    showToast("Hi! Welcome to the books world")
+                    val username = binding.etName.text.toString().trim()
+                    sharedPrefs.edit().putString(Constants.LOGGED_IN_USERID, username).commit()
+                    showToast("Hi $username! Welcome to the books world")
                     showLoader(false)
                 }
                 LoginStatus.PASSWORD_ERROR -> {

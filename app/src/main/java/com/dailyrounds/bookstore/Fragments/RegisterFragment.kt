@@ -4,13 +4,15 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputFilter
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.dailyrounds.bookstore.Database.BookStoreDatabase
 import com.dailyrounds.bookstore.Models.Country
@@ -23,12 +25,13 @@ import com.dailyrounds.bookstore.ViewModels.LoginViewModelFactory
 import com.dailyrounds.bookstore.databinding.FragmentRegisterBinding
 import com.dailyrounds.bookstore.enums.RegistrationStatus
 
+
 class RegisterFragment : Fragment() {
     lateinit var viewModel: LoginViewModel
     lateinit var database: BookStoreDatabase
-    var countryData = ArrayList<Country>()
     private lateinit var binding: FragmentRegisterBinding
-    private lateinit var sharedPrefs:SharedPreferences
+    private lateinit var sharedPrefs: SharedPreferences
+    private var selectedCountry = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -47,7 +50,8 @@ class RegisterFragment : Fragment() {
     }
 
     private fun initSharedPreference() {
-        sharedPrefs=requireActivity().getSharedPreferences(Constants.SHARED_PREF_NAME,Context.MODE_PRIVATE)
+        sharedPrefs =
+            requireActivity().getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE)
     }
 
     private fun initData() {
@@ -56,7 +60,26 @@ class RegisterFragment : Fragment() {
 
     private fun initObservers() {
         viewModel.countryLiveData.observe(requireActivity()) {
-            countryData = it as ArrayList<Country>
+            val countryData = it as ArrayList<Country>
+            val countries = countryData.map { it ->
+                it.name
+            } as ArrayList<String>
+            binding.countrySpinner.apply {
+                adapter = ArrayAdapter(context, R.layout.spinner_item, countries)
+                onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        selectedCountry = countries[position]
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>) {
+                    }
+                }
+            }
         }
         viewModel.registrationStatus.observe(requireActivity()) {
             when (it) {
@@ -66,8 +89,8 @@ class RegisterFragment : Fragment() {
                     showLoader(false)
                 }
                 RegistrationStatus.REGISTERED -> {
-                    val username=binding.etName.text.toString().trim()
-                    sharedPrefs.edit().putString(Constants.LOGGED_IN_USERID,username).commit()
+                    val username = binding.etName.text.toString().trim()
+                    sharedPrefs.edit().putString(Constants.LOGGED_IN_USERID, username).commit()
                     showToast("Successfully registered")
                     showLoader(false)
                 }
@@ -126,11 +149,10 @@ class RegisterFragment : Fragment() {
             val password = binding?.etPassword?.text.toString().trim()
             if (validateName(username) && validatePassword(password)) {
                 viewModel.registerUser(
-                    username, password, "india"
+                    username, password, selectedCountry
                 )
             }
         }
-
     }
 
     private fun validateName(username: String): Boolean {
