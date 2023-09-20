@@ -65,7 +65,9 @@
                 app:boxStrokeColor="@color/black"
                 app:boxStrokeWidth="2dp"
                 app:hintTextColor="@color/black"
-                app:passwordToggleEnabled="true">
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/black"
+                app:passwordToggleTintMode="src_atop">
 
                 <EditText
                     android:id="@+id/etPassword"
