@@ -36,6 +36,7 @@ class Constants {
         const val BY_TITLE = 1
         const val BY_HITS = 2
         const val BY_FAV = 3
+        const val IS_REGISTER_FRAG="IsRegisterFrag"
 
 
     }

@@ -34,6 +34,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var database: BookStoreDatabase
     lateinit var viewModel: LoginViewModel
     lateinit var binding: ActivityLoginBinding
+    var isRegisterFrag=true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initSharedPreference()
@@ -43,7 +44,32 @@ class LoginActivity : AppCompatActivity() {
         initViewModel()
         initObservers()
         initListeners()
+        if(savedInstanceState!=null) isRegisterFrag=savedInstanceState.getBoolean(Constants.IS_REGISTER_FRAG)
+        updateFragmentState(isRegisterFrag)
     }
+
+    private fun updateFragmentState(registerFrag: Boolean) {
+    if(registerFrag){
+        if (supportFragmentManager.findFragmentById(R.id.fragmentContainerView) !is RegisterFragment) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainerView, RegisterFragment.newInstance())
+                .setReorderingAllowed(true).addToBackStack(null).commit()
+
+        }
+        binding.loginBtn.setInactive(this@LoginActivity)
+        binding.Rgtrbtn.setActive(this@LoginActivity)
+    }
+        else{
+        if (supportFragmentManager.findFragmentById(R.id.fragmentContainerView) !is LoginFragment) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainerView, LoginFragment.newInstance())
+                .setReorderingAllowed(true).addToBackStack(null).commit()
+        }
+        binding.loginBtn.setActive(this@LoginActivity)
+        binding.Rgtrbtn.setInactive(this@LoginActivity)
+        }
+    }
+
 
     /*
     This is the function which checks whether the user is logged in or not if yes it opens the books activity
@@ -58,22 +84,12 @@ class LoginActivity : AppCompatActivity() {
     private fun initListeners() {
         binding.apply {
             loginBtn.setOnClickListener {
-                if (supportFragmentManager.findFragmentById(R.id.fragmentContainerView) !is LoginFragment) {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragmentContainerView, LoginFragment.newInstance())
-                        .setReorderingAllowed(true).addToBackStack(null).commit()
-                    loginBtn.setActive(this@LoginActivity)
-                    Rgtrbtn.setInactive(this@LoginActivity)
-                }
+                isRegisterFrag=false
+                updateFragmentState(false)
             }
             Rgtrbtn.setOnClickListener {
-                if (supportFragmentManager.findFragmentById(R.id.fragmentContainerView) !is RegisterFragment) {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragmentContainerView, RegisterFragment.newInstance())
-                        .setReorderingAllowed(true).addToBackStack(null).commit()
-                    loginBtn.setInactive(this@LoginActivity)
-                    Rgtrbtn.setActive(this@LoginActivity)
-                }
+                isRegisterFrag=true
+                updateFragmentState(true)
             }
         }
     }
@@ -155,6 +171,11 @@ class LoginActivity : AppCompatActivity() {
             e.printStackTrace()
             return ""
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(Constants.IS_REGISTER_FRAG,isRegisterFrag)
     }
 
     private fun loginUser() {

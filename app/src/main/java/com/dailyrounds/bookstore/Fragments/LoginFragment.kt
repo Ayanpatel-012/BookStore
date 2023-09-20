@@ -157,10 +157,14 @@ class LoginFragment : Fragment() {
         database = BookStoreDatabase.getDatabase(requireActivity())
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        clearViews()
+    }
 
     override fun onDetach() {
         super.onDetach()
-        clearViews()
+
     }
 
     private fun clearViews() {
