@@ -51,4 +51,19 @@ class BookRepository(private val booksDao: BooksDao) {
             throw e
         }
     }
+    suspend fun getBookById(bookId: String):Book{
+        try {
+            val bookEntity=booksDao.getBookById(bookId)
+            return Book(id = bookEntity.id,
+                alias = bookEntity.alias,
+                hits = bookEntity.hits,
+                image = bookEntity.image,
+                lastChapterDate = bookEntity.lastChapterDate,
+                title = bookEntity.title,
+                fav = bookEntity.fav)
+        }
+        catch (e:Exception) {
+        throw e
+        }
+    }
 }

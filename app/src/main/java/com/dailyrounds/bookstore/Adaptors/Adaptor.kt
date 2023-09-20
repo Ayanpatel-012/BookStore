@@ -45,8 +45,6 @@ class Adaptor(private val bookList: ArrayList<Book>, private val listener: Event
             .into(holder.bookImg)
         holder.favImg.setOnClickListener {
             listener.onFavClicked(book.id, !book.fav)
-            book.fav = !book.fav
-            notifyDataSetChanged()
         }
         holder.clMain.setOnClickListener {
             listener.openBookDetails(book)

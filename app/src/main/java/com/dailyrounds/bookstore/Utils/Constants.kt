@@ -10,6 +10,7 @@ class Constants {
 
         //Queries
         const val GET_BOOKS_QUERY = "SELECT * FROM $BOOK_TABLE"
+        const val GET_BOOKSBYID_QUERY = "SELECT * FROM $BOOK_TABLE WHERE id =:id"
         const val GET_USERBYID_QUERY = "SELECT * FROM $USER_TABLE WHERE userId =:id"
         const val GET_COUNTRIES_QUERY = "SELECT * FROM $COUNTRY_TABLE"
         const val UPDATE_BOOK_QUERY = "UPDATE $BOOK_TABLE SET fav = :newValue WHERE id= :id"

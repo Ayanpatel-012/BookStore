@@ -7,7 +7,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class BookViewModel(private val repository: BookRepository) : ViewModel() {
-
+    val book:LiveData<Book> get()=_book
+    private var _book= MutableLiveData<Book>()
+    val updatedBookId:LiveData<Pair<String, Boolean>> get() = _updatedBookId
+    private var _updatedBookId=MutableLiveData<Pair<String, Boolean>>()
     val booksLiveData: LiveData<List<Book>> get() = _booksLiveData
     private var _booksLiveData = MutableLiveData<List<Book>>()
     val sortingAlgo: LiveData<Int> get() = _sortingAlgo
@@ -26,7 +29,18 @@ class BookViewModel(private val repository: BookRepository) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 repository.updateBook(id, newValue)
+                _updatedBookId.postValue(Pair(id,newValue))
             } catch (e: Exception) {
+
+            }
+        }
+    }
+    fun getBookById(id:String){
+        viewModelScope.launch ( Dispatchers.IO ){
+            try {
+                _book.postValue( repository.getBookById(id))
+            }
+            catch (e:Exception){
 
             }
         }

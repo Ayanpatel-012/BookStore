@@ -40,6 +40,10 @@ class BooksActivity : AppCompatActivity(), EventClickListener {
         setupRv()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewmodel.getBooks()
+    }
 
 
     private fun initDatabase() {
@@ -53,6 +57,12 @@ class BooksActivity : AppCompatActivity(), EventClickListener {
     }
 
     private fun initObservers() {
+        viewmodel.updatedBookId.observe(this){
+            sortedBooks.forEach {book ->
+                if(book.id==it.first) book.fav=it.second
+            }
+            adaptor?.notifyDataSetChanged()
+        }
         viewmodel.booksLiveData.observe(this) {
             bookList.clear()
             bookList.addAll(it)
