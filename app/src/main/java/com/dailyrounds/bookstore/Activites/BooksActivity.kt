@@ -80,7 +80,8 @@ class BooksActivity : AppCompatActivity(), EventClickListener {
                     }
                     sortedBooks.apply {
                         clear()
-                        addAll(bookList.sortedBy { book -> book.title })
+                        if(!binding.switch1.isChecked)addAll(bookList.sortedBy { book -> book.title })
+                        else addAll(bookList.sortedByDescending { book -> book.title })
                         adaptor?.notifyDataSetChanged()
                     }
 
@@ -93,7 +94,8 @@ class BooksActivity : AppCompatActivity(), EventClickListener {
                     }
                     sortedBooks.apply {
                         clear()
-                        addAll(bookList.sortedBy { book -> book.hits })
+                        if(!binding.switch1.isChecked)addAll(bookList.sortedBy { book -> book.hits })
+                        else addAll(bookList.sortedByDescending { book -> book.hits })
                         adaptor?.notifyDataSetChanged()
                     }
                 }
@@ -146,9 +148,9 @@ class BooksActivity : AppCompatActivity(), EventClickListener {
             logout.setOnClickListener {
                 logout()
             }
-            sortTitle.setOnClickListener { viewmodel.updateSortingAlgo(Constants.BY_TITLE) ; switch1.isChecked=false}
-            sortFavs.setOnClickListener { viewmodel.updateSortingAlgo(Constants.BY_FAV);switch1.isChecked=false}
-            sortHits.setOnClickListener { viewmodel.updateSortingAlgo(Constants.BY_HITS) ;switch1.isChecked=false}
+            sortTitle.setOnClickListener { viewmodel.updateSortingAlgo(Constants.BY_TITLE)}
+            sortFavs.setOnClickListener { viewmodel.updateSortingAlgo(Constants.BY_FAV)}
+            sortHits.setOnClickListener { viewmodel.updateSortingAlgo(Constants.BY_HITS)}
             switch1.setOnCheckedChangeListener{_,isChecked->
                 if(isChecked) {
                     when(sortedBy){
